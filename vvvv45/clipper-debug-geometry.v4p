@@ -1,0 +1,169 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.104.dtd" >
+   <PATCH nodename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-geometry.v4p" systemname="clipper-debug-geometry" filename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-geometry.v4p">
+   <BOUNDS type="Window" left="3510" top="2445" width="9000" height="6000">
+   </BOUNDS>
+   <NODE systemname="Triangle (ClipperPath FromAngleTwoSides)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Triangle (ClipperPath FromAngleTwoSides)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="2685" top="1530" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Side AB" slicecount="1" values="1.45" visible="1">
+   </PIN>
+   <PIN pinname="Side AC" slicecount="1" values="1.26" visible="1">
+   </PIN>
+   <PIN pinname="Angle a" slicecount="1" visible="1" values="-0.05">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Renderer (SVG)" componentmode="InAWindow" id="1">
+   <BOUNDS type="Node" left="1770" top="4155" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1770" top="4155" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="12330" top="2835" width="6240" height="6585">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Background Color" slicecount="1" values="|0.53964,0.53964,0.53964,1.00000|">
+   </PIN>
+   </NODE>
+   <NODE systemname="AsSVG (ClipperPath)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="AsSVG (ClipperPath)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="2220" top="2265" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Stroke" slicecount="1" values="|0.68707,0.34165,0.00000,1.00000|">
+   </PIN>
+   <PIN pinname="Stroke Width" slicecount="1" values="0.01">
+   </PIN>
+   </NODE>
+   <NODE systemname="Group (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Group (SVG)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="2085" top="3210" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer 1" visible="1">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Layer 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Output" dstnodeid="2" dstpinname="Paths">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Layer" dstnodeid="3" dstpinname="Layer 1">
+   </LINK>
+   <LINK srcnodeid="3" srcpinname="Layer" dstnodeid="1" dstpinname="Layers">
+   </LINK>
+   <NODE systemname="Degrees (Value Cycles)" filename="%VVVV%\lib\nodes\modules\Value\Degrees (Value Cycles).v4p" nodename="Degrees (Value Cycles)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="945" top="345" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Degrees" visible="1">
+   </PIN>
+   <PIN pinname="Cycles" slicecount="1" values="0.73">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="9" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1035" top="885" width="1140" height="645">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1035" top="885" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Degrees" dstnodeid="9" dstpinname="Y Input Value">
+   </LINK>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <NODE systemname="AsSVG (ClipperPath)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="AsSVG (ClipperPath)" componentmode="Hidden" id="10">
+   <BOUNDS type="Node" left="3870" top="2490" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Stroke" slicecount="1" values="|0.68707,0.34165,0.00000,0.63004|">
+   </PIN>
+   <PIN pinname="Stroke Width" slicecount="1" values="0.01">
+   </PIN>
+   <PIN pinname="Fill" slicecount="1" values="|1.00000,0.00000,0.40345,0.29068|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="10" srcpinname="Layer" dstnodeid="3" dstpinname="Layer 2">
+   </LINK>
+   <NODE systemname="Circle (ClipperPath FromRadius)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Circle (ClipperPath FromRadius)" componentmode="Hidden" id="11">
+   <BOUNDS type="Node" left="5100" top="1185" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Radius" slicecount="1" values="0.05" visible="1">
+   </PIN>
+   <PIN pinname="Resolution" slicecount="1" values="32">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="11" srcpinname="Output" dstnodeid="10" dstpinname="Paths">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="12" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="5550" top="495" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5550" top="495" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.02">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Y Output Value" dstnodeid="11" dstpinname="Radius">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="13" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="2220" top="690" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2220" top="690" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.05">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Angle a|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="13" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Angle a">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="14" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4425" top="600" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4425" top="600" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1.26">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Side AC|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Side AC">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="15" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3345" top="600" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3345" top="600" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1.45">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Side AB|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="15" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Side AB">
+   </LINK>
+   </PATCH>

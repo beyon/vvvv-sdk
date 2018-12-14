@@ -1,0 +1,143 @@
+﻿----------------------------------------
+Clipper Todo list
+----------------------------------------
+
+* Update clipper lib
+* File headers
+
+* ClipperCoordConverter - Verify from area formula
+
+* Implement Nodes:
+	- MinkowskiDiff
+	- MinkowskiSum
+	- ApplyTransform(ClipperPath)
+	- Bevel/Round corners
+
+* Node Todo
+
+	- AsSVG
+		- debug
+		- solve
+		- Create help patch
+
+	- AsClipperPath ( Vector2d )
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- AsClipperPath ( SVG )
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Create help patch
+
+	- AsValue
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Orientation
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Offset
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Simplify
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Clean
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Area
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Bounds
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Reverse
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- HitTest
+		- Test
+			- Null refs for deleted links
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- BooleanShapeComination
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Union
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Difference
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Intersection
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+	- Xor
+		- debug
+		- solve
+		- Follow VVVV naming conventions
+		- Create help patch
+
+* x64 build
+	- make sure project references are platform agnostic
+
+* vvvv.org post about project and testing/feedback

@@ -1,0 +1,397 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.104.dtd" >
+   <PATCH nodename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-text.v4p" scrollx="0" scrolly="15" systemname="clipper-debug-test-text" filename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-text.v4p">
+   <BOUNDS type="Window" left="3255" top="2310" width="11655" height="6240">
+   </BOUNDS>
+   <NODE systemname="Renderer (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Renderer (SVG)" componentmode="InAWindow" id="1">
+   <BOUNDS type="Node" left="1935" top="5085" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1935" top="5085" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="7710" top="9435" width="6240" height="5085">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="SizeXY" slicecount="2" values="300,300">
+   </PIN>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Camera (SVG Join)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Camera (SVG Join)" componentmode="Hidden" id="5">
+   <BOUNDS type="Node" left="2550" top="4665" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   <PIN pinname="CenterXY" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="SizeXY" visible="1" slicecount="2" values="35.8154296875,18.90625">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="5" srcpinname="View Box" dstnodeid="1" dstpinname="View Box">
+   </LINK>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="10">
+   <BOUNDS type="Node" left="4860" top="3525" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4860" top="3525" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="22215" top="8070" width="6240" height="5085">
+   </BOUNDS>
+   </NODE>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <NODE systemname="AsSVG (ClipperPath)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="AsSVG (ClipperPath)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="1350" top="3345" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Stroke" visible="1" slicecount="1" values="|0.63577,0.63577,0.63577,1.00000|">
+   </PIN>
+   <PIN pinname="Stroke Width" slicecount="1" values="0.3">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Layer" dstnodeid="1" dstpinname="Layers">
+   </LINK>
+   <NODE systemname="Text (ClipperPath)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Text (ClipperPath)" componentmode="Hidden" id="17">
+   <BOUNDS type="Node" left="1575" top="1485" width="3150" height="270">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Text" slicecount="1" visible="1" values="BD">
+   </PIN>
+   <PIN pinname="PositionXY" visible="1">
+   </PIN>
+   <PIN pinname="Font" visible="1">
+   </PIN>
+   <PIN pinname="Size" visible="1">
+   </PIN>
+   <PIN pinname="Bold" visible="1">
+   </PIN>
+   <PIN pinname="Italic" visible="1">
+   </PIN>
+   <PIN pinname="Flatness" visible="1">
+   </PIN>
+   <PIN pinname="Strikeout" visible="1">
+   </PIN>
+   <PIN pinname="Underline" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Transform (Transform 2d)" nodename="Transform (Transform 2d)" componentmode="Hidden" id="18">
+   <BOUNDS type="Node" left="2820" top="3300" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <NODE systemname="AsValue (ClipperPath Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="AsValue (ClipperPath Vector)" componentmode="Hidden" id="19">
+   <BOUNDS type="Node" left="9015" top="1320" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="OutputXY" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="19" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Bounds (ClipperPath Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Bounds (ClipperPath Vector)" componentmode="Hidden" id="21">
+   <BOUNDS type="Node" left="4695" top="2580" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="CenterXY" visible="1">
+   </PIN>
+   <PIN pinname="Height" visible="1">
+   </PIN>
+   <PIN pinname="Width" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="21" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Vector (2d Join)" nodename="Vector (2d Join)" componentmode="Hidden" id="22">
+   <BOUNDS type="Node" left="3900" top="3705" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Y" visible="1" slicecount="5" values="0,6.375,6.375,9.5,9.5">
+   </PIN>
+   <PIN pinname="X" visible="1" slicecount="5" values="0,6.625,6.625,8.9375,10.3125">
+   </PIN>
+   <PIN pinname="XY" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Bounds (Spectral)" nodename="Bounds (Spectral)" componentmode="Hidden" id="23">
+   <BOUNDS type="Node" left="4020" top="2820" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Maximum" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="Height" dstnodeid="23" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Bounds (Spectral)" nodename="Bounds (Spectral)" componentmode="Hidden" id="24">
+   <BOUNDS type="Node" left="4950" top="2865" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Maximum" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="Width" dstnodeid="24" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Bounds (Spectral Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\VectorSized.dll" nodename="Bounds (Spectral Vector)" componentmode="Hidden" id="25">
+   <BOUNDS type="Node" left="5895" top="2715" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Center" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="CenterXY" dstnodeid="25" dstpinname="Input">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="26" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="5835" top="3045" width="225" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="5835" top="3045" width="225" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="v">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="24" srcpinname="Maximum" dstnodeid="22" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="23" srcpinname="Maximum" dstnodeid="22" dstpinname="Y">
+   </LINK>
+   <NODE systemname="Orientation (ClipperPath Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Orientation (ClipperPath Vector)" componentmode="Hidden" id="27">
+   <BOUNDS type="Node" left="3075" top="2040" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="27" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="28">
+   <BOUNDS type="Node" left="3525" top="4185" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="2.5">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="22" srcpinname="XY" dstnodeid="28" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="29" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="270" top="270" width="795" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="270" top="270" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="2" visible="1" values="-13.1,-10">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="2">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="29" srcpinname="Y Output Value" dstnodeid="17" dstpinname="PositionXY">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="30" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="1305" top="135" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1305" top="135" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="GND">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="Text">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="30" srcpinname="Output String" dstnodeid="17" dstpinname="Text">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="31" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="1620" top="465" width="1590" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1620" top="465" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="Calibri">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="31" srcpinname="Output Enum" dstnodeid="17" dstpinname="Font">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="32" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="2385" top="780" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="2385" top="780" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="12">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="32" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Size">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="33" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="3330" top="600" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3330" top="600" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Bold">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="33" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Bold">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="34" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="4305" top="555" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="4305" top="555" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Italic">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="34" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Italic">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="35" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="8145" top="675" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="8145" top="675" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.01">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Flatness">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="35" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Flatness">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="36" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="5385" top="435" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5385" top="435" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Strikeout">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="36" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Strikeout">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="37" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="6480" top="360" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="6480" top="360" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="1">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Underline">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="37" srcpinname="Y Output Value" dstnodeid="17" dstpinname="Underline">
+   </LINK>
+   <NODE systemname="Union (ClipperPath 2D)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Union (ClipperPath 2D)" componentmode="Hidden" id="38">
+   <BOUNDS type="Node" left="600" top="2355" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Subject Paths" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Clip Paths" visible="1">
+   </PIN>
+   <PIN pinname="Subject FillType" slicecount="1" values="pftPositive">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="38" dstpinname="Subject Paths">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="38" dstpinname="Clip Paths">
+   </LINK>
+   <NODE systemname="Offset (ClipperPath Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\Clipper.dll" nodename="Offset (ClipperPath Vector)" componentmode="Hidden" id="39">
+   <BOUNDS type="Node" left="1485" top="2910" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Delta" slicecount="1" visible="1" values="0.71">
+   </PIN>
+   <PIN pinname="Join type" slicecount="1" values="jtRound">
+   </PIN>
+   <PIN pinname="Arc tolerance" slicecount="1" values="0.59">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output" dstnodeid="39" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="39" srcpinname="Output" dstnodeid="4" dstpinname="Paths">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="40" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="1800" top="2385" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="1800" top="2385" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.67">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="40" srcpinname="Y Output Value" dstnodeid="39" dstpinname="Delta">
+   </LINK>
+   </PATCH>

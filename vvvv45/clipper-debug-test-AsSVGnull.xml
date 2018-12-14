@@ -1,0 +1,151 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.104.dtd" >
+   <PATCH nodename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-AsSVGnull.xml" scrollx="0" scrolly="15" systemname="clipper-debug-test-AsSVGnull" filename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-AsSVGnull.xml">
+   <BOUNDS type="Window" left="3255" top="2310" width="9000" height="6000">
+   </BOUNDS>
+   <NODE systemname="AsPath (2d SVG)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsPath (2d SVG)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="1800" top="1500" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Path" visible="1">
+   </PIN>
+   <PIN pinname="Update" slicecount="1" values="0" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Renderer (SVG)" componentmode="InAWindow" id="1">
+   <BOUNDS type="Node" left="1695" top="3840" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1695" top="3840" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="10830" top="5715" width="6240" height="5085">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1">
+   </PIN>
+   <PIN pinname="SizeXY" slicecount="2" values="300,300">
+   </PIN>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Quad (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Quad (SVG)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="1605" top="960" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Layer" dstnodeid="0" dstpinname="Layer">
+   </LINK>
+   <NODE systemname="AsSVG (Path)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsSVG (Path)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="1815" top="2700" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Stroke" visible="1">
+   </PIN>
+   <PIN pinname="Stroke Width" slicecount="1" values="0.02">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Layer" dstnodeid="1" dstpinname="Layers">
+   </LINK>
+   <NODE systemname="Camera (SVG Join)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Camera (SVG Join)" componentmode="Hidden" id="5">
+   <BOUNDS type="Node" left="2385" top="3225" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="5" srcpinname="View Box" dstnodeid="1" dstpinname="View Box">
+   </LINK>
+   <NODE systemname="CircularSpread (Spreads)" nodename="CircularSpread (Spreads)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="3555" top="795" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Spread Count" slicecount="1" values="3">
+   </PIN>
+   <PIN pinname="Output X" visible="1">
+   </PIN>
+   <PIN pinname="Output Y" visible="1">
+   </PIN>
+   <PIN pinname="Input X" slicecount="1" values="-0.5">
+   </PIN>
+   </NODE>
+   <NODE systemname="Vector (2d Join)" nodename="Vector (2d Join)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="3660" top="1290" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="X" visible="1">
+   </PIN>
+   <PIN pinname="Y" visible="1">
+   </PIN>
+   <PIN pinname="XY" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Output X" dstnodeid="7" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="6" srcpinname="Output Y" dstnodeid="7" dstpinname="Y">
+   </LINK>
+   <NODE systemname="AsPath (2d Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsPath (2d Vector)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="3600" top="1650" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="InputXY" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="XY" dstnodeid="8" dstpinname="InputXY">
+   </LINK>
+   <NODE systemname="Difference (Path 2D)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="Difference (Path 2D)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="1860" top="2250" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Subject Paths" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Clip Paths" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="0" srcpinname="Path" dstnodeid="3" dstpinname="Subject Paths">
+   </LINK>
+   <LINK srcnodeid="8" srcpinname="Output" dstnodeid="3" dstpinname="Clip Paths">
+   </LINK>
+   <NODE systemname="HSV (Color Join)" nodename="HSV (Color Join)" componentmode="Hidden" id="9">
+   <BOUNDS type="Node" left="2940" top="2160" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Saturation" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Hue" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="9" srcpinname="Output" dstnodeid="4" dstpinname="Stroke">
+   </LINK>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="10">
+   <BOUNDS type="Node" left="4755" top="2925" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4755" top="2925" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="9450" top="6210" width="6240" height="5085">
+   </BOUNDS>
+   </NODE>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <LINK srcnodeid="3" srcpinname="Output" dstnodeid="4" dstpinname="Paths">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="11">
+   <BOUNDS type="Node" left="3045" top="690" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="3045" top="690" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Update">
+   </LINK>
+   </PATCH>

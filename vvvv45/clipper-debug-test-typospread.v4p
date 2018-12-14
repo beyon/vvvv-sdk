@@ -1,0 +1,309 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.104.dtd" >
+   <PATCH nodename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-typospread.v4p" scrollx="0" scrolly="15" systemname="clipper-debug-test-typospread" filename="C:\Users\Björn\Documents\GitHub\vvvv-sdk\vvvv45\clipper-debug-test-typospread.v4p">
+   <BOUNDS type="Window" left="3255" top="2310" width="9000" height="6000">
+   </BOUNDS>
+   <NODE systemname="AsPath (2d SVG)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsPath (2d SVG)" componentmode="Hidden" id="0">
+   <BOUNDS type="Node" left="1800" top="1500" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Path" visible="1">
+   </PIN>
+   <PIN pinname="Update" slicecount="1" visible="1" values="0">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Renderer (SVG)" componentmode="InAWindow" id="1">
+   <BOUNDS type="Node" left="1695" top="3840" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="1695" top="3840" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="8805" top="4155" width="9360" height="6645">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1">
+   </PIN>
+   <PIN pinname="SizeXY" slicecount="2" values="512,512">
+   </PIN>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Quad (SVG)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Quad (SVG)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="1605" top="960" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Transform" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Layer" dstnodeid="0" dstpinname="Layer">
+   </LINK>
+   <NODE systemname="AsSVG (Path)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsSVG (Path)" componentmode="Hidden" id="4">
+   <BOUNDS type="Node" left="1815" top="2700" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Stroke" visible="1">
+   </PIN>
+   <PIN pinname="Stroke Width" slicecount="1" values="0.005">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="4" srcpinname="Layer" dstnodeid="1" dstpinname="Layers">
+   </LINK>
+   <NODE systemname="Camera (SVG Join)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Camera (SVG Join)" componentmode="Hidden" id="5">
+   <BOUNDS type="Node" left="2385" top="3225" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="View Box" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="5" srcpinname="View Box" dstnodeid="1" dstpinname="View Box">
+   </LINK>
+   <NODE systemname="CircularSpread (Spreads)" nodename="CircularSpread (Spreads)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="4725" top="405" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Spread Count" slicecount="1" visible="1" values="3">
+   </PIN>
+   <PIN pinname="Output X" visible="1">
+   </PIN>
+   <PIN pinname="Output Y" visible="1">
+   </PIN>
+   <PIN pinname="Input X" slicecount="1" values="-0.5">
+   </PIN>
+   <PIN pinname="Factor" slicecount="1" values="2">
+   </PIN>
+   </NODE>
+   <NODE systemname="Vector (2d Join)" nodename="Vector (2d Join)" componentmode="Hidden" id="7">
+   <BOUNDS type="Node" left="4590" top="825" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="X" visible="1" slicecount="64" values="-0.861328125,-0.833984375,-0.806640625,-0.779296875,-0.751953125,-0.724609375,-0.697265625,-0.669921875,-0.642578125,-0.615234375,-0.587890625,-0.560546875,-0.533203125,-0.505859375,-0.478515625,-0.451171875,-0.423828125,-0.396484375,-0.369140625,-0.341796875,-0.314453125,-0.287109375,-0.259765625,-0.232421875,-0.205078125,-0.177734375,-0.150390625,-0.123046875,-0.095703125,-0.068359375,-0.041015625,-0.013671875,0.013671875,0.041015625,0.068359375,0.095703125,0.123046875,0.150390625,0.177734375,0.205078125,0.232421875,0.259765625,0.287109375,0.314453125,0.341796875,0.369140625,0.396484375,0.423828125,0.451171875,0.478515625,0.505859375,0.533203125,0.560546875,0.587890625,0.615234375,0.642578125,0.669921875,0.697265625,0.724609375,0.751953125,0.779296875,0.806640625,0.833984375,0.861328125">
+   </PIN>
+   <PIN pinname="Y" visible="1" slicecount="256" values="-0.173267326732673,-0.164938846825859,-0.224752475247525,-0.304950495049505,-0.356435643564356,-0.381188118811881,-0.385148514851485,-0.367326732673267,-0.322772277227723,-0.242574257425743,-0.153465346534653,-0.096039603960396,-0.0663366336633663,-0.0425742574257426,-0.0207920792079208,0.00891089108910891,0.0544554455445545,0.123762376237624,0.210891089108911,0.303960396039604,0.385148514851485,0.445544554455446,0.481188118811881,0.498019801980198,0.498019801980198,0.482178217821782,0.445544554455446,0.386138613861386,0.304950495049505,0.216831683168317,0.205008736167734,0.26039603960396,0.337623762376238,0.377227722772277,0.387128712871287,0.377722772277228,0.337623762376238,0.259405940594059,0.173267326732673,0.124752475247525,0.098019801980198,0.0757425742574257,0.0524752475247525,0.0198019801980198,-0.0316831683168317,-0.106435643564356,-0.195049504950495,-0.287128712871287,-0.369306930693069,-0.433663366336634,-0.474752475247525,-0.496039603960396,-0.499009900990099,-0.49009900990099,-0.465841584158416,-0.420792079207921,-0.354455445544554,-0.271287128712871,-0.18019801980198,-0.403547854785479,-0.313980564723139,-0.226652456912358,-0.139324349101577,-0.0519962412907958,0.0353318665199854,0.122659974330766,0.209988082141547,0.297316189952329,0.38464429776311,0.471972405573891,0.483168316831683,0.449262997039254,0.361109165578937,0.272955334118621,0.184801502658304,0.096647671197988,0.0084938397376715,-0.0819203463754735,-0.17007417783579,-0.258415841584158,-0.347524752475248,-0.313861386138614,-0.227722772277228,-0.138714763196065,-0.0511572176325913,0.0364003279308822,0.123957873494356,0.211515419057829,0.299072964621303,0.386630510184776,0.47418805574825,0.483168316831683,0.438488098232456,0.351361671963963,0.262001234765509,0.174874808497016,0.0877483822285231,0.000621955960030167,-0.0865044703084627,-0.173630896576956,-0.260757322845449,-0.347883749113941,-0.435010175382434,-0.484158415841584,-0.481914038271577,-0.394383313041281,-0.306852587810985,-0.21932186258069,-0.131791137350394,-0.0442604121200983,0.0432703131101973,0.133045415910501,0.220576141140796,0.308106866371092,0.395637591601388,0.483168316831683,0.483168316831683,0.440917264140207,0.354191419141914,0.267465574143621,0.180739729145328,0.0940138841470354,0.00728803914874244,-0.0794378058495505,-0.166163650847843,-0.252889495846136,-0.339615340844429,-0.426341185842722,-0.484158415841584,-0.484158415841584,-0.412568966820346,-0.325319325825712,-0.238069684831079,-0.191089108910891,-0.191089108910891,-0.191089108910891,-0.191089108910891,-0.202361005331302,-0.29028179741051,-0.378202589489718,-0.466123381568926,-0.484158415841584,-0.0871287128712871,-0.0871287128712871,-0.0871287128712871,-0.0871287128712871,-0.0111056105610561,0.0760973597359736,0.163300330033003,0.25049504950495,0.339108910891089,0.331683168316832,0.242574257425743,0.154782879862789,0.0666094955952288,-0.0215638886723318,-0.460155271110238,-0.366543006657986,-0.272930742205734,-0.179318477753483,-0.0857062133012309,0.00790605115102084,0.101518315603273,0.197530894528659,0.291143158980911,0.384755423433162,0.478367687885414,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.475247524752475,0.44950495049505,0.392079207920792,0.310891089108911,0.221782178217822,0.128712871287129,0.0504950495049505,-0.00495049504950495,-0.0351485148514852,-0.0693069306930693,-0.130693069306931,-0.202970297029703,-0.282388238823882,-0.361078607860786,-0.43976897689769,-0.484158415841584,-0.484158415841584,-0.427312731273127,-0.348134813481348,-0.268316831683168,-0.193069306930693,-0.11980198019802,-0.0683168316831683,-0.0544554455445545,-0.0544554455445545,-0.0856629238342829,-0.179285358703468,-0.272907793572653,-0.366530228441839,-0.460152663311024,-0.484158415841584,0.0564356435643564,0.0564356435643564,0.0564356435643564,0.0574257425742574,0.0722772277227723,0.120792079207921,0.203960396039604,0.292079207920792,0.353465346534653,0.375247524752475,0.376237623762376,0.376237623762376,0.376237623762376,0.34016973125884,0.246393210749646,0.152616690240453,0.0588401697312589,-0.393058182222717,-0.299560574034932,-0.206062965847147,-0.112565357659361,-0.0190677494715764,0.0744298587162087,0.167927466903994,0.261425075091779,0.354922683279564,0.369306930693069,0.369306930693069,0.369306930693069,0.412913419001475,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.483168316831683,0.475900568780282,0.381419844112071,0.369306930693069,0.369306930693069,0.369306930693069,0.326154188452553,0.232656580264768,0.136761597508065,0.0432639893202804,-0.0502336188675047,-0.14373122705529,-0.237228835243075,-0.33072644343086,-0.424224051618645,-0.484158415841584">
+   </PIN>
+   <PIN pinname="XY" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="AsPath (2d Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="AsPath (2d Vector)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="4530" top="1185" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="InputXY" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input Bin Size" visible="1" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="7" srcpinname="XY" dstnodeid="8" dstpinname="InputXY">
+   </LINK>
+   <NODE systemname="Difference (Path 2D)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="Difference (Path 2D)" componentmode="Hidden" id="3">
+   <BOUNDS type="Node" left="1860" top="2250" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Subject Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Clip Paths" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <NODE systemname="HSV (Color Join)" nodename="HSV (Color Join)" componentmode="Hidden" id="9">
+   <BOUNDS type="Node" left="2940" top="2160" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Saturation" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Hue" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="9" srcpinname="Output" dstnodeid="4" dstpinname="Stroke">
+   </LINK>
+   <NODE systemname="Renderer (TTY)" nodename="Renderer (TTY)" componentmode="InAWindow" id="10">
+   <BOUNDS type="Node" left="4755" top="2925" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4755" top="2925" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="9450" top="6210" width="6240" height="5085">
+   </BOUNDS>
+   </NODE>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="11">
+   <BOUNDS type="Node" left="2820" top="600" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2820" top="600" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="11" srcpinname="Y Output Value" dstnodeid="0" dstpinname="Update">
+   </LINK>
+   <LINK srcnodeid="0" srcpinname="Path" dstnodeid="3" dstpinname="Subject Paths">
+   </LINK>
+   <NODE systemname="Offset (Path Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="Offset (Path Vector)" componentmode="Hidden" id="12">
+   <BOUNDS type="Node" left="3225" top="1680" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Join type" slicecount="1" values="jtRound">
+   </PIN>
+   <PIN pinname="Delta" slicecount="1" values="0.01">
+   </PIN>
+   <PIN pinname="Miter Limit" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="End type" slicecount="1" values="etClosedPolygon">
+   </PIN>
+   <PIN pinname="Arc tolerance" slicecount="1" values="0.9">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="12" srcpinname="Output" dstnodeid="3" dstpinname="Clip Paths">
+   </LINK>
+   <NODE systemname="LinearSpread (Spreads)" nodename="LinearSpread (Spreads)" componentmode="Hidden" id="13">
+   <BOUNDS type="Node" left="3360" top="165" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Spread Count" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Width" slicecount="1" values="1.75">
+   </PIN>
+   </NODE>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="14">
+   <BOUNDS type="Node" left="6030" top="45" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="6030" top="45" width="795" height="240">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="64">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="6" dstpinname="Spread Count">
+   </LINK>
+   <LINK srcnodeid="14" srcpinname="Y Output Value" dstnodeid="13" dstpinname="Spread Count">
+   </LINK>
+   <NODE systemname="Transform (Transform 2d)" nodename="Transform (Transform 2d)" componentmode="Hidden" id="16">
+   <BOUNDS type="Node" left="735" top="465" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   <PIN pinname="ScaleX" slicecount="1" values="1.95">
+   </PIN>
+   <PIN pinname="ScaleY" slicecount="1" values="1.5">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="16" srcpinname="Transform Out" dstnodeid="2" dstpinname="Transform">
+   </LINK>
+   <NODE systemname="TypoSpread (Spreads)" nodename="TypoSpread (Spreads)" componentmode="Hidden" id="17">
+   <BOUNDS type="Node" left="5835" top="705" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output X" visible="1">
+   </PIN>
+   <PIN pinname="Output Y" visible="1">
+   </PIN>
+   <PIN pinname="Spread Count" slicecount="1" visible="1" values="256">
+   </PIN>
+   <PIN pinname="Text" slicecount="1" values="SVART">
+   </PIN>
+   <PIN pinname="BinSize" visible="1">
+   </PIN>
+   <PIN pinname="Spacing" slicecount="1" values="0.1">
+   </PIN>
+   <PIN pinname="Width" slicecount="1" values="1.8">
+   </PIN>
+   <PIN pinname="Fill Square" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Height" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="Font" slicecount="1" values="Carlito">
+   </PIN>
+   <PIN pinname="Factor" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output X" dstnodeid="7" dstpinname="X">
+   </LINK>
+   <NODE systemname="Clean (Path Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="Clean (Path Vector)" componentmode="Hidden" id="18">
+   <BOUNDS type="Node" left="3795" top="1320" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Distance" slicecount="1" values="0.1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="19">
+   <BOUNDS type="Node" left="6405" top="1515" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 2" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="17" srcpinname="Output Y" dstnodeid="19" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="19" srcpinname="Output" dstnodeid="7" dstpinname="Y">
+   </LINK>
+   <LINK srcnodeid="17" srcpinname="BinSize" dstnodeid="8" dstpinname="Input Bin Size">
+   </LINK>
+   <NODE systemname="Multiply (Value)" nodename="Multiply (Value)" componentmode="Hidden" id="20">
+   <BOUNDS type="Node" left="7335" top="135" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" slicecount="1" values="128">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="5">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="20" srcpinname="Output" dstnodeid="17" dstpinname="Spread Count">
+   </LINK>
+   <NODE systemname="TypoSpread (Spreads)" nodename="TypoSpread (Spreads)" componentmode="Hidden" id="21">
+   <BOUNDS type="Node" left="6465" top="2085" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="23" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="4785" top="2130" width="465" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4785" top="2130" width="465" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="path">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE systemname="Simplify (Path Vector)" filename="%VVVV%\addonpack\lib\nodes\plugins\ClipperLibNodes.dll" nodename="Simplify (Path Vector)" componentmode="Hidden" id="24">
+   <BOUNDS type="Node" left="5265" top="1575" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Join type" slicecount="1" values="pftPositive">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Output" dstnodeid="24" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="24" srcpinname="Output" dstnodeid="18" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="24" srcpinname="Output" dstnodeid="12" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="12" srcpinname="Output" dstnodeid="4" dstpinname="Paths">
+   </LINK>
+   </PATCH>
