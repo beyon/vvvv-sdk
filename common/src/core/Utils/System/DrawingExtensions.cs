@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace System.Drawing
 {
     public static class DrawingExtensions
     {
-
         /// <summary>
         /// Returns the bounds of the given point cloud.
         /// </summary>
         public static RectangleF GetBounds(this IEnumerable<PointF> points)
         {
-            var cachedPoints = points.ToArray();
-            if (cachedPoints.Length > 0)
+            var min = new Vector2(float.MaxValue, float.MaxValue);
+            var max = new Vector2(float.MinValue, float.MinValue);
+            foreach (var p in points)
             {
-                var top = cachedPoints.Min(p => p.Y);
-                var bottom = cachedPoints.Max(p => p.Y);
-                var left = cachedPoints.Min(p => p.X);
-                var right = cachedPoints.Max(p => p.X);
-                return RectangleF.FromLTRB(left, top, right, bottom);
+                var v = new Vector2(p.X, p.Y);
+                min = Vector2.Min(min, v);
+                max = Vector2.Max(max, v);
             }
-            else
-                return RectangleF.Empty;
+            if (min.X != float.MaxValue)
+                return RectangleF.FromLTRB(min.X, min.Y, max.X, max.Y);
+            return RectangleF.Empty;
         }
 
         /// <summary>
@@ -33,17 +33,16 @@ namespace System.Drawing
         /// </summary>
         public static RectangleF GetBounds(this IEnumerable<RectangleF> bounds)
         {
-            var cachedBounds = bounds.ToArray();
-            if (cachedBounds.Length > 0)
+            var minTopLeft = new Vector2(float.MaxValue, float.MaxValue);
+            var maxBottomRight = new Vector2(float.MinValue, float.MinValue);
+            foreach (var r in bounds)
             {
-                var top = cachedBounds.Min(b => b.Top);
-                var bottom = cachedBounds.Max(b => b.Bottom);
-                var left = cachedBounds.Min(b => b.Left);
-                var right = cachedBounds.Max(b => b.Right);
-                return RectangleF.FromLTRB(left, top, right, bottom);
+                minTopLeft = Vector2.Min(minTopLeft, new Vector2(r.Left, r.Top));
+                maxBottomRight = Vector2.Max(maxBottomRight, new Vector2(r.Right, r.Bottom));
             }
-            else
-                return RectangleF.Empty;
+            if (minTopLeft.X != float.MaxValue)
+                return RectangleF.FromLTRB(minTopLeft.X, minTopLeft.Y, maxBottomRight.X, maxBottomRight.Y);
+            return RectangleF.Empty;
         }
 
         /// <summary>
@@ -63,11 +62,27 @@ namespace System.Drawing
         }
 
         /// <summary>
+        /// Returns a rectangle for given center position and 1 pixel size
+        /// </summary>
+        public static RectangleF GetOnePixelRectangleForCenter(this PointF centerPosition)
+        {
+            return GetRectangleForCenterAndSize(centerPosition, new SizeF(1, 1));
+        }
+
+        /// <summary>
         /// Returns a rectangle for given center position and size.
         /// </summary>
         public static RectangleF GetRectangleForCenterAndSize(this PointF centerPosition, SizeF size)
         {
             return new RectangleF(centerPosition.X - size.Width * 0.5f, centerPosition.Y - size.Height * 0.5f, size.Width, size.Height);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Rectangle">Rectangle</see> by casting the float components to integer.
+        /// </summary>
+        public static Rectangle ToRectangle(this RectangleF rect)
+        {
+            return new Rectangle(rect.Location.ToPoint(), rect.Size.ToSize());
         }
 
         /// <summary>
@@ -130,6 +145,16 @@ namespace System.Drawing
         }
 
         /// <summary>
+        /// Returns the squared distance to another point. Good for comparisons.
+        /// </summary>
+        public static float GetSquaredDistanceTo(this PointF from, PointF to)
+        {
+            float x = from.X - to.X;
+            float y = from.Y - to.Y;
+            return x * x + y * y;
+        }
+
+        /// <summary>
         /// Normalizes the length
         /// </summary>
         /// <param name="point"></param>
@@ -180,7 +205,20 @@ namespace System.Drawing
             t.TransformPoints(pts);
             return pts[0];
         }
-        
+
+        /// <summary>
+        /// Applies the geometric transform represented by this Matrix to the
+        /// given rectangle.
+        /// </summary>
+        /// <param name="t">A Matrix</param>
+        /// <param name="rect">The rectangle to transform.</param>
+        /// <returns>The transformed rectangle.</returns>
+        public static Rectangle TransformRectangle(this Matrix t, Rectangle rect)
+        {
+            var tr = TransformRectangle(t, new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+            return new Rectangle((int)tr.X, (int)tr.Y, (int)tr.Width, (int)tr.Height);
+        }
+
         /// <summary>
         /// Applies the geometric transform represented by this Matrix to the
         /// given rectangle.
@@ -280,6 +318,22 @@ namespace System.Drawing
             }
 
             return true;
+        }
+
+        public static void DrawCenteredCircle(this Graphics g, Pen pen,
+                              float centerX, float centerY, float size)
+        {
+            var radius = size / 2f;
+            g.DrawEllipse(pen, centerX - radius, centerY - radius,
+                          size, size);
+        }
+
+        public static void FillCenteredCircle(this Graphics g, Brush brush,
+                                      float centerX, float centerY, float size)
+        {
+            var radius = size / 2f;
+            g.FillEllipse(brush, centerX - radius, centerY - radius,
+                          size, size);
         }
     }
 }

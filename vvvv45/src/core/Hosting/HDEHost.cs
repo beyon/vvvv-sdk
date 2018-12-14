@@ -28,7 +28,11 @@ using VVVV.PluginInterfaces.V2.EX9;
 using VVVV.PluginInterfaces.V2.Graph;
 using VVVV.Utils.Linq;
 using VVVV.Utils.Network;
-using VL.Core;
+using NuGetAssemblyLoader;
+using Nito.Async;
+using VVVV.Utils.Reflection;
+using System.Collections;
+using System.Text;
 
 namespace VVVV.Hosting
 {
@@ -36,8 +40,67 @@ namespace VVVV.Hosting
     [Export(typeof(IHDEHost))]
     [ComVisible(false)]
     class HDEHost : IInternalHDEHost, IHDEHost,
-    IMouseClickListener, INodeSelectionListener, IWindowListener, IComponentModeListener, IWindowSelectionListener
+    IMouseClickListener, INodeSelectionListener, IWindowListener, IComponentModeListener, IWindowSelectionListener, IEnumListener
     {
+        #region SynchronizationContext hack
+        // See issue described here: http://stackoverflow.com/questions/32439669/hosting-net-and-winforms-synchronizationcontexts-is-reset-when-showdialog-of
+        class MySynchronizationContext : SynchronizationContext
+        {
+            private readonly SynchronizationContext context = new WindowsFormsSynchronizationContext();
+
+            static MySynchronizationContext()
+            {
+                // This tells the GenericSynchronizingObject class implementing ISynchronizeInvoke used by our file watchers that an invoke is indeed required
+                SynchronizationContextRegister.Register(typeof(MySynchronizationContext), SynchronizationContextProperties.Standard);
+            }
+
+            public override SynchronizationContext CreateCopy()
+            {
+                return context.CreateCopy();
+            }
+
+            public override bool Equals(object obj)
+            {
+                return context.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return context.GetHashCode();
+            }
+
+            public override void OperationCompleted()
+            {
+                context.OperationCompleted();
+            }
+
+            public override void OperationStarted()
+            {
+                context.OperationStarted();
+            }
+
+            public override void Post(SendOrPostCallback d, object state)
+            {
+                context.Post(d, state);
+            }
+
+            public override void Send(SendOrPostCallback d, object state)
+            {
+                context.Send(d, state);
+            }
+
+            public override string ToString()
+            {
+                return "Wrapped";
+            }
+
+            public override int Wait(IntPtr[] waitHandles, bool waitAll, int millisecondsTimeout)
+            {
+                return context.Wait(waitHandles, waitAll, millisecondsTimeout);
+            }
+        }
+        #endregion
+
         public const string ENV_VVVV = "VVVV45";
         
         const string WINDOW_SWITCHER = "WindowSwitcher (VVVV)";
@@ -106,43 +169,22 @@ namespace VVVV.Hosting
             //add repository paths from commandline
             //from commandline
             var repoArg = "/package-repositories";
-            var packageRepositories = AssemblyProbing.ParseCommandLine(repoArg);
-
-            //from args.txt
-            var argsFile = Path.Combine(ExePath, "args.txt");
-            if (File.Exists(argsFile))
-            {
-                var args = File.ReadAllText(argsFile);
-                var repoPaths = args.Split(new string[] { "\r", "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                        .Where(l => l.StartsWith(repoArg))
-                        .SelectMany(r => r.Substring(repoArg.Length + 1).Trim('"').Split(';'));
-
-                packageRepositories = packageRepositories.Union(repoPaths).ToArray();
-            }
-
-            AssemblyProbing.AddPackageRepositories(packageRepositories);
+            var packageRepositories = ExtractPaths(repoArg);
+            AssemblyLoader.AddPackageRepositories(packageRepositories);
 
             //the built-in one
-            AssemblyProbing.AddPackageRepository(PacksPath);
+            if (Directory.Exists(PacksPath))
+                AssemblyLoader.AddPackageRepository(PacksPath);
             //the one where the user is supposed to install packages
-            AssemblyProbing.AddPackageRepository(UserPacksPatch);
-            
+            if (Directory.Exists(UserPacksPatch))
+                AssemblyLoader.AddPackageRepository(UserPacksPatch);
 
             // Set name to vvvv thread for easier debugging.
             Thread.CurrentThread.Name = "vvvv";
-            
+
             // Create a windows forms sync context (FileSystemWatcher runs asynchronously).
-            var context = SynchronizationContext.Current;
-            if (context == null)
-            {
-                // We need to create a user control to get a sync context.
-                var control = new UserControl();
-                context = SynchronizationContext.Current;
-                control.Dispose();
-                
-                Debug.Assert(context != null, "SynchronizationContext not set.");
-            }
-            
+            SynchronizationContext.SetSynchronizationContext(new MySynchronizationContext());
+
             // Register at least one ICommandHistory for top level element ISolution
             var mappingRegistry = new MappingRegistry();
             mappingRegistry.RegisterMapping<ISolution, ICommandHistory, CommandHistory>(MapInstantiation.PerInstanceAndItsChilds);
@@ -158,6 +200,29 @@ namespace VVVV.Hosting
 
             // Will tell Windows Forms that a message loop is indeed running
             Application.RegisterMessageLoop(IsSendingMessages);
+        }
+
+        private string[] ExtractPaths(string key)
+        {
+            //from commandline
+            var paths = AssemblyLoader.ParseCommandLine(key);
+
+            //from args.txt
+            var argsFile = Path.Combine(ExePath, "args.txt");
+            if (File.Exists(argsFile))
+            {
+                var args = File.ReadAllText(argsFile).Split(new Char[] { ' ', '\r' }, StringSplitOptions.RemoveEmptyEntries).Select(p => p.Trim()).ToArray();
+                paths = paths.Concat(AssemblyLoader.ParseLines(args, key)).ToArray();
+            }
+
+            //make relative paths absolute
+            for (int i = 0; i < paths.Length; i++)
+            {
+                if (Path.IsPathRooted(paths[i]))
+                    paths[i] = Path.Combine(ExePath, paths[i]);
+            }
+
+            return paths;
         }
 
         private HashSet<ProxyNodeInfo> LoadNodeInfos(string filename, string arguments)
@@ -196,6 +261,7 @@ namespace VVVV.Hosting
             FVVVVHost.AddWindowListener(this);
             FVVVVHost.AddWindowSelectionListener(this);
             FVVVVHost.AddComponentModeListener(this);
+            FVVVVHost.AddEnumListener(this);
 
             NodeInfoFactory.NodeInfoUpdated += factory_NodeInfoUpdated;
 
@@ -204,6 +270,7 @@ namespace VVVV.Hosting
 
             DeviceService = new DeviceService(vvvvHost.DeviceService);
             MainLoop = new MainLoop(vvvvHost.MainLoop);
+            MainLoop.OnInitFrame += MainLoop_OnInitFrame;
 
             ExposedNodeService = new ExposedNodeService(vvvvHost.ExposedNodeService, NodeInfoFactory);
 
@@ -284,6 +351,11 @@ namespace VVVV.Hosting
             LoadNodesFromPackages();
         }
 
+        private void MainLoop_OnInitFrame(object sender, EventArgs e)
+        {
+            Application.RaiseIdle(EventArgs.Empty);
+        }
+
         bool IsSendingMessages()
         {
             return FIsRunning;
@@ -301,7 +373,7 @@ namespace VVVV.Hosting
 
         private void LoadFactoriesFromPackages(AggregateCatalog catalog)
         {
-            foreach (var package in AssemblyProbing.Repository.GetPackages())
+            foreach (var package in AssemblyLoader.Repository.GetPackages())
             {
                 var packagePath = package.GetPathOfPackage();
                 //check for new nuget package format (skip packages without a version.info file - see http://vvvv.org/blog/patch-conversions-pack-versioning)
@@ -316,7 +388,7 @@ namespace VVVV.Hosting
 
         private void LoadNodesFromPackages()
         {
-            foreach (var package in AssemblyProbing.Repository.GetPackages())
+            foreach (var package in AssemblyLoader.Repository.GetPackages())
             {
                 var packagePath = package.GetPathOfPackage();
                 //check if the package contains a legacy package
@@ -476,6 +548,7 @@ namespace VVVV.Hosting
         public void Shutdown()
         {
             FStartableRegistry.ShutDown();
+            Container.Dispose();
             FIsRunning = false;
         }
         
@@ -569,7 +642,16 @@ namespace VVVV.Hosting
                 WindowRemoved(this, args);
             }
         }
-        
+
+        public event EnumEventHandler EnumChanged;
+        protected virtual void OnEnumChanged(EnumEventArgs args)
+        {
+            if (EnumChanged != null)
+            {
+                EnumChanged(this, args);
+            }
+        }
+
         public INode Root
         {
             get
@@ -629,13 +711,8 @@ namespace VVVV.Hosting
             FVVVVHost.GetEnumEntry(EnumName, Index, out entryName);
             return entryName;
         }
-        
-        public double GetCurrentTime()
-        {
-            double currentTime;
-            FVVVVHost.GetCurrentTime(out currentTime);
-            return currentTime;
-        }
+
+        public double GetCurrentTime() => FrameTime;
         
         public double FrameTime
         {
@@ -646,7 +723,7 @@ namespace VVVV.Hosting
                 return currentTime;
             }
         }
-        
+
         public double RealTime
         {
             get
@@ -926,6 +1003,90 @@ namespace VVVV.Hosting
         public void SetFrameTimeProvider(Func<double, double> timeProvider) => FVVVVHost.SetTimeProvider(new DummyTimeProvider(timeProvider));
         public void SetFrameTimeProvider(ITimeProvider timeProvider) => FVVVVHost.SetTimeProvider(timeProvider);
 
+        public void EnumChangeCB(string enumName)
+        {
+            OnEnumChanged(new EnumEventArgs(enumName));
+        }
+
+        public string GetInfoString([MarshalAs(UnmanagedType.IUnknown)] object obj)
+        {
+            return string.Format(" [{0}]{1}", GetDataType(obj).GetCSharpName(), GetValueRendering(obj));
+        }
+
+        Type GetDataType(object obj) => GetDataType(GetType(obj));
+
+        static Type GetDataType(Type ioType)
+        {
+            // this should probably be spelled out specifically.
+            // it's about getting rid of ISpread<> and alikes not about any generic type.
+            if (ioType.IsGenericType)
+                return ioType.GetGenericArguments()[0];
+            return GetDataType(ioType.BaseType);
+        }
+
+        static Type GetType(object obj)
+        {
+            var wrapper = obj as DynamicTypeWrapper;
+            if (wrapper != null)
+                return wrapper.Value.GetType();
+            return obj.GetType();
+        }
+
+        static string GetValueRendering(object obj)
+        {
+            var enumerable = obj as IEnumerable;
+            if (enumerable == null)
+            {
+                var wrapper = obj as DynamicTypeWrapper;
+                if (wrapper != null)
+                    enumerable = wrapper.Value as IEnumerable;
+            }
+            if (enumerable != null)
+            {
+                var enumerator = enumerable.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var slice = enumerator.Current;
+                    if (slice == null)
+                        return " : null";
+                    var s = slice.ToString();
+                    var defaultRendering = slice.GetType()?.ToString();
+                    if (s == defaultRendering)
+                        return "";
+                    return $" : {s}";
+                }
+                else
+                    return " : Ø";
+            }
+            return "";
+        }
+
+        public void ShowVLEditor()
+        {
+            FVVVVHost.ShowVLEditor();
+        }
+
         public double OriginalFrameTime => FVVVVHost.GetOriginalFrameTime();
+
+        public Version Version
+        {
+            get
+            {
+                if (FVersion == null)
+                {
+                    var p = Path.Combine(ExePath, "vvvv.exe");
+                    if (File.Exists(p))
+                    {
+                        var versionInfo = FileVersionInfo.GetVersionInfo(p);
+                        if (versionInfo != null)
+                            FVersion = new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart, versionInfo.FilePrivatePart);
+                    }
+                    if (FVersion == null)
+                        FVersion = new Version();
+                }
+                return FVersion;
+            }
+        }
+        Version FVersion;
     }
 }

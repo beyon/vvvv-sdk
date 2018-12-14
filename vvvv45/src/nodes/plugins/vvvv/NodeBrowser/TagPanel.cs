@@ -21,7 +21,7 @@ namespace VVVV.Nodes.NodeBrowser
         private int FVisibleLines = 20;
         private Color CLabelColor = Color.FromArgb(255, 154, 154, 154);
         private Color CHoverColor = Color.FromArgb(255, 216, 216, 216);
-        private const string CRTFHeader = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Verdana;}}\viewkind4\uc1\pard\f0\fs17 ";
+        private const string CRTFHeader = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Verdana;}\deftab300}\viewkind4\uc1\pard\f0\fs17 ";
         private int CLineHeight = 13; //dip-ified in constructor!
         private int CLineLength = 200; //dip-ified in constructor!
         private int FHoverLine;
@@ -209,7 +209,7 @@ namespace VVVV.Nodes.NodeBrowser
                 //now that we create a text make sure not to create a comment as well
                 TagsTextBox.Text = "";
                 
-                if ((Control.ModifierKeys == Keys.Control) && (selNode.Type == NodeType.Dynamic || selNode.Type == NodeType.Effect || selNode.Type == NodeType.VL))
+                if ((Control.ModifierKeys == Keys.Control) && (selNode.Type == NodeType.Dynamic || selNode.Type == NodeType.Effect || selNode.Type == NodeType.VL || selNode.Type == NodeType.Module))
                     OnPanelChange(NodeBrowserPage.Clone, selNode);
                 else
                     OnCreateNode(selNode);
@@ -412,8 +412,10 @@ namespace VVVV.Nodes.NodeBrowser
                 tip += "\n AUTHOR: " + ni.Author.Trim();
             if (!string.IsNullOrEmpty(ni.Credits))
                 tip += "\n CREDITS: " + ni.Credits.Trim();
-            if (ni.Type == NodeType.Dynamic || ni.Type == NodeType.Effect || ni.Type == NodeType.VL)
+            if (ni.Type == NodeType.Dynamic || ni.Type == NodeType.Effect || ni.Type == NodeType.VL || ni.Type == NodeType.Module)
                 tip += "\n Use CTRL+Enter or CTRL+Click to clone this node.";
+            if (!string.IsNullOrEmpty(ni.Filename))
+                tip += "\n\n" + ni.Filename;
 
             if (!string.IsNullOrEmpty(tip))
             	FToolTip.Show(tip.Trim(), FRichTextBox, x, y + DIPX(15));
@@ -444,19 +446,34 @@ namespace VVVV.Nodes.NodeBrowser
                                                string t = "";
                                                foreach (string tag in FTags)
                                                {
-                                                   t = tag.ToLower().ToUpperFirstInvariant();
+                                                   t = tag.ToLower();
 
                                                    var found = false;
-                                                   if (t.Length > 1)
+                                                   if (FSwizzles.Contains(t))
+                                                       found = displayName.ToLower().Contains(t);
+
+                                                   if (!found && FSingleCharNodes.Contains(t))
+                                                       found = displayName.ToLower().StartsWith(t);
+
+                                                   if (!found)
                                                    {
-                                                       //first char matches case-sensitive, all later chars match insensitive
-                                                       var pattern = "(" + Regex.Escape(t[0].ToString()) + "(?i)" + Regex.Escape(string.Join("", t.Skip(1))) + "(?-i))";
-                                                       var rex = new Regex(pattern);
-                                                       var matches = rex.Match(displayName);
-                                                       found = matches.Length > 0;
+                                                       //first we check case-insensitive if the displayname simply start with the given tag
+                                                       found = displayName.ToLower().StartsWith(t);
+                                                       if (!found)
+                                                       {
+                                                           //then we consider the tag a sub-term in the displayname 
+                                                           //and therefore want it to start with a capital letter
+                                                           //so that we don't just find any occurances 
+                                                           //but only those were the tag appears as a proper camel-cased sub-term
+                                                           
+                                                           t = t.ToUpperFirstInvariant();
+                                                           //first char matches case-sensitive, all later chars match insensitive
+                                                           var pattern = "(" + Regex.Escape(t[0].ToString()) + "(?i)" + Regex.Escape(string.Join("", t.Skip(1))) + "(?-i))";
+                                                           var rex = new Regex(pattern);
+                                                           var matches = rex.Match(displayName);
+                                                           found = matches.Length > 0;
+                                                       }
                                                    }
-                                                   else
-                                                       found = displayName.IndexOf(t[0]) >= 0;
 
                                                    if (found)
                                                    {
@@ -527,9 +544,11 @@ namespace VVVV.Nodes.NodeBrowser
             FSelectionList.Clear();
 
             var nodeInfos = NodeBrowser.NodeInfoFactory.NodeInfos.Where(ni => ni.Ignore == false && NodeBrowser.CategoryFilter.CategoryVisible(ni.Category));
-            if (!FShowInternal)
-                nodeInfos = nodeInfos.Except(nodeInfos.Where(ni => ni.Version.Contains("Internal")));
-            
+            if (FShowInternal)
+                nodeInfos = nodeInfos.Where(ni => ni.Version.Contains("Internal"));
+            else
+                nodeInfos = nodeInfos.Where(ni => !ni.Version.Contains("Internal"));
+
             // Cache current patch window nodeinfo and current dir
             var currentPatchWindow = NodeBrowser.CurrentPatchWindow;
             FCurrentPatchWindowNodeInfo = currentPatchWindow != null ? currentPatchWindow.Node.NodeInfo : null;
@@ -562,12 +581,22 @@ namespace VVVV.Nodes.NodeBrowser
         }
         
         private readonly Regex FCatRegExp = new Regex(@"\((.*)\)(.*)$");
+        private readonly string[] FSwizzles = new string[8]{"xy", "xyz", "xz", "yz", "xyw", "xyzw", "xzw", "yzw"};
+        private readonly string[] FSingleCharNodes = new string[3] { "i", "s", "r" };
 
         private int Weight(int lastWeight, string text, string tag)
         {
             var pos = text.IndexOf(tag);
             if (pos > -1)
             {
+                //the following won't work well for swizzles, like: xyZ, Xyz
+                //so simply exclude those
+                if (FSwizzles.Contains(tag.ToLower()))
+                    return Math.Min(lastWeight, pos);
+
+                if (FSingleCharNodes.Contains(tag.ToLower()))
+                    return Math.Min(lastWeight, pos);
+
                 //do the following finegrained check only for tags found before the category/version/tags
                 if (pos < text.IndexOf(" ("))
                 {
@@ -586,7 +615,7 @@ namespace VVVV.Nodes.NodeBrowser
                     }
                 }
 
-                //otherwise the simply the position of the tag is the pos
+                //otherwise simply the position of the tag is the pos
                 return Math.Min(lastWeight, pos);
             }            
             else
@@ -712,7 +741,24 @@ namespace VVVV.Nodes.NodeBrowser
                     sb.Append(s[i]);
                 
                 n = sb.ToString();
-                FRTFSelectionList.Add(n.PadRight(CLineLength + markupChars) + "\\par ");
+
+                FRTFSelectionList.Add(GetNodeTypePrefix(nodeInfo) + "\t" + n.PadRight(CLineLength + markupChars) + "\\par ");
+            }
+        }
+
+        string GetNodeTypePrefix(INodeInfo nodeInfo)
+        {
+            switch (nodeInfo.Type)
+            {
+                case NodeType.Native: return "";
+                case NodeType.Module: return " m";
+                case NodeType.Plugin: return " p";
+                case NodeType.Dynamic: return " d";
+                case NodeType.Freeframe: return " f";
+                case NodeType.Effect: return " x";
+                case NodeType.VST: return " a";
+                case NodeType.VL: return " v";
+                default: return " t";
             }
         }
 
@@ -729,13 +775,11 @@ namespace VVVV.Nodes.NodeBrowser
             //seems mono adds a \par here automatically, so remove one
             string rtf = rtfBuilder.ToString();
             rtf = rtf.TrimEnd(new char[5]{'\\', 'p', 'a', 'r', ' '});// + "}";
-            
+
             if (FRichTextBox.InvokeRequired)
                 FRichTextBox.Invoke(new MethodInvoker(() => { FRichTextBox.Rtf = rtf; }));
             else
                 FRichTextBox.Rtf = rtf;
-            
-            FNodeTypePanel.Invalidate();
         }
 
         public void Redraw()
@@ -842,7 +886,6 @@ namespace VVVV.Nodes.NodeBrowser
             
             //make sure the selection is also drawn in the NodeTypePanel
             FRichTextBox.Invalidate();
-            FNodeTypePanel.Invalidate();
         }
 
         void FScrollBarValueChanged(object sender, EventArgs e)
@@ -850,75 +893,6 @@ namespace VVVV.Nodes.NodeBrowser
             FScrolledLine = FScrollBar.Value;
             UpdateRichTextBox();
             FToolTip.Hide(FRichTextBox);
-        }
-
-        void FNodeTypePanelPaint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.Clear(Color.Silver);
-            
-            int maxLine = Math.Min(FVisibleLines, FSelectionList.Count);
-            for (int i = 0; i < maxLine; i++)
-            {
-                int index = Math.Min(i + ScrolledLine, FSelectionList.Count-1);
-                int y = (i * CLineHeight) + DIPY(4);
-                
-                if (FHoverLine == i)
-                    using (SolidBrush b = new SolidBrush(CHoverColor))
-                		e.Graphics.FillRectangle(b, new Rectangle(0, y-DIPY(4), DIPX(21), CLineHeight));
-                
-                var nodeType = FSelectionList[index].Type;
-                {
-                    using (SolidBrush b = new SolidBrush(Color.Black))
-                        switch (nodeType)
-                    {
-                        case NodeType.Native:
-                            {
-                                break;
-                            }
-                        case NodeType.Module:
-                            {
-                    			e.Graphics.DrawString("m", FRichTextBox.Font, b, DIPX(5), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.Plugin:
-                            {
-                    			e.Graphics.DrawString("p", FRichTextBox.Font, b, DIPX(6), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.Dynamic:
-                            {
-                    			e.Graphics.DrawString("d", FRichTextBox.Font, b, DIPX(6), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.Freeframe:
-                            {
-                    			e.Graphics.DrawString(" f", FRichTextBox.Font, b, DIPX(4), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.Effect:
-                            {
-                    			e.Graphics.DrawString(" x", FRichTextBox.Font, b, DIPX(4), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.VST:
-                            {
-                    			e.Graphics.DrawString(" a", FRichTextBox.Font, b, DIPX(4), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                        case NodeType.VL:
-                            {
-                                e.Graphics.DrawString(" v", FRichTextBox.Font, b, DIPX(4), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                            // Added code:
-                        default:
-                            {
-                            	e.Graphics.DrawString("t", FRichTextBox.Font, b, DIPX(5), y-DIPY(3), StringFormat.GenericDefault);
-                                break;
-                            }
-                    }
-                }
-            }
         }
 
         void HandleRichTextBoxResize(object sender, EventArgs e)

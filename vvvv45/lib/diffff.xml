@@ -1448,5 +1448,305 @@
   	  <PIN old="Maximum forground fps" new="Maximum Foreground FPS" />
 	  <PIN old="Maximum background fpsS" new="Maximum Background FPS" />
   	</NODE>
+	<NODE old="AudioRecordSelector (System)" new="AudioRecordSelector (System Legacy)"></NODE>
+	<NODE old="FFT (DShow9 4Channels WinXP)" new="FFT (DShow9 4Channels WinXP legacy)"></NODE>
+  </PATCH>
+  <PATCH version="50alpha34.105">
+	<NODE old=":MODULES:\vvvv group\3D\Resample (3D Vector).v4p" new="Resample (3d Vector Legacy)">
+  	</NODE>
+	<NODE old="Resample (3D Vector).v4p" new="Resample (3d Vector Legacy)">
+  	</NODE>
+	<NODE old="Resample (3D Vector)" new="Resample (3d Vector Legacy)">
+  	</NODE>
+	<NODE old=":MODULES:\vvvv group\Color\Resample (Color).v4p" new="Resample (Color)">
+  	</NODE>
+	<NODE old="Resample (Color)">
+  	  <PIN old="spread" new="Input" />
+	  <PIN old="mode" new="Mode" />
+	  <PIN old="cyclic spread" new="Cyclic Spread" />
+	  <PIN old="hermite tension" new="Hermite Tension" />
+	  <PIN old="hermite bias" new="Hermite Bias" />
+	  <PIN old="count" new="Spread Count" />
+	  <PIN old="spread" new="Output" />
+  	</NODE>
+  </PATCH>
+  <PATCH version="50alpha34.106">
+	<NODE old="VertexID (EX9 2d)" new="PointID (DX9 2d)">
+	  <PIN old="Scale" new="Size" />
+	  <PIN old="InputXY" new="XY" />
+	</NODE>
+	<NODE old="VertexID (EX9 3d)" new="PointID (DX9 3d)">
+	  <PIN old="InputXYZ" new="XYZ" />
+	</NODE>
+	<NODE old=":MODULES:\vvvv group\3D\B-Spline (3D).v4p" new="B-Spline (3d)">
+	  <PIN old="Control XYZ" new="ControlXYZ" />
+	  <PIN old="Ouput XYZ" new="OutputXYZ" />
+	</NODE>
+	<NODE old="B-Spline (3d)">
+	  <PIN old="Control XYZ" new="ControlXYZ" />
+	  <PIN old="Ouput XYZ" new="OutputXYZ" />
+	</NODE>
+	<NODE old="B-Spline (3d Wryly)">
+	  <PIN old="Ouput XYZ" new="OutputXYZ" />
+	</NODE>
+	<NODE old=":MODULES:\vvvv group\3D\B-Spline (3d Wryly).v4p" new="B-Spline (3d Wryly)">
+	  <PIN old="Ouput XYZ" new="OutputXYZ" />
+	</NODE>
+  </PATCH>
+  <PATCH version="50alpha34.107">
+	<NODE old="GridPoints (2d)" new="GridSpread (Spreads 2d)" />
+	<NODE old="GridPoints (3d)" new="GridSpread (Spreads 3d)" />
+	<NODE old="RandomPoints (2d)" new="RandomSpread (Spreads 2d)" >
+		<PIN old="Count" new="Spread Count" />
+	</NODE>
+	<NODE old="RandomPoints (3d)" new="RandomSpread (Spreads 3d)" >
+		<PIN old="Count" new="Spread Count" />
+	</NODE>
+	<NODE old="CircleSpread (2d)" new="CircularSpread (Spreads 2d)" />
+	<NODE old="HexGridPoints (2d)" new="HexGridSpread (Spreads 2d)" />
+	<NODE old="RectangleSpread (2d)" new="RectangleSpread (Spreads 2d)" />
+	<NODE old="SpiralSpread (2d)" new="SpiralSpread (Spreads 2d)" />
+	<NODE old="StarSpread (2d)" new="StarSpread (Spreads 2d)" />
+  </PATCH>
+  <PATCH version="50alpha34.108">
+  <NODE old="Select (2d)">
+    <PIN old="Input" new="InputXY" />
+    <PIN old="Output" new="OutputXY" />
+  </NODE>
+  <NODE old="Select (3d)">
+    <PIN old="Input" new="InputXYZ" />
+    <PIN old="Output" new="OutputXYZ" />
+  </NODE>
+  <NODE old="Select (4d)">
+    <PIN old="Input" new="InputXYZW" />
+    <PIN old="Output" new="OutputXYZW" />
+  </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.1">
+  <NODE old="SelfAlign (EX9.Effect)" >
+	<PIN old="colore" new="Color" />
+	<PIN old="Second Transform" new="Transform in Viewspace" />
+  </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.4">
+  <NODE old="MidiFile (Midi)" >
+	<PIN old="File Path" new="Filename" />
+  </NODE>
+  </PATCH>  
+  <PATCH version="50alpha35.5">
+  <NODE old="HTTP (Network Get)" new="HTTP (Network Get Legacy)" />
+  <NODE old="HTTP (Network Get String)" new="HTTP (Network Get String Legacy)" />
+  <NODE old="HTTP (Network Post)" new="HTTP (Network Post Legacy)" />
+  <NODE old="HTTP (Network Post String)" new="HTTP (Network Post String Legacy)" />
+  </PATCH> 
+  <PATCH version="50alpha35.7">
+  <NODE old="ArtNet (Network Sender)" new="ArtNet (Network Sender Legacy)" />
+  <NODE old="PointEditor (2d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditorView (DX9 2d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditorState (EditingFramework 2d Boygroup)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditorView (DX11 2d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditor (3d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditorView (DX9 3d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="PointEditorState (EditingFramework 3d Boygroup)">
+	<PIN old="PointEditor State" new="State" />
+	<PIN old="EditablePoint" new="State" />
+  </NODE>
+  <NODE old="PointEditorView (DX11 3d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="BezierEditor (2d)">
+	<PIN old="BezierEditor State" new="State" />
+  </NODE>
+  <NODE old="BezierEditorState (EditingFramework 2d Boygroup)">
+	<PIN old="BezierEditor State" new="State" />
+  </NODE>
+  <NODE old="BezierEditorView (DX9 2d)">
+	<PIN old="BezierPointEditorState" new="State" />
+  </NODE>
+  <NODE old="BezierEditorView (DX11 2d)">
+	<PIN old="BezierPointEditorState" new="State" />
+  </NODE>
+  <NODE old="BezierEditor (3d)">
+	<PIN old="BezierEditorState" new="State" />
+  </NODE>
+  <NODE old="BezierEditorState (EditingFramework 3d Boygroup)">
+	<PIN old="BezierEditor State" new="State" />
+  </NODE>
+  <NODE old="BezierEditorView (DX9 3d)">
+	<PIN old="BezierPointEditorState" new="State" />
+  </NODE>
+  <NODE old="BezierEditorView (DX11 3d)">
+	<PIN old="BezierPointEditorState" new="State" />
+  </NODE>
+  <NODE old="BezierPatchEditor (2d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="BezierPatchEditor (3d)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="MeshEditor (EX9)">
+	<PIN old="PointEditor State" new="State" />
+  </NODE>
+  <NODE old="Point (DX9 3d)">
+	<PIN old="Translate XYZ" new="XYZ" />
+  </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.9">
+	<NODE old="Levin (Spreads Simple)" new="Levin (Spreads Simple Legacy)" />
+    <NODE old="Enum2Ord (Enumerations)" new="Enum2Ord (Enumerations Legacy)" />
+    <NODE old="Enum2String (Enumerations)" new="Enum2String (Enumerations Legacy)" />
+  </PATCH>
+  <PATCH version="50alpha35.10">
+	<NODE old="Date (Astronomy)">
+		<PIN old="Formate" new="Format" />
+		<PIN old="CultureInfo" new="Culture Info" />
+	</NODE>
+  </PATCH>
+  <PATCH version="50alpha35.11">
+    <NODE old="SetPatchMode (VVVV)" new="SetPatchMode (VVVV Legacy)" />
+  </PATCH>
+  <PATCH version="50alpha35.12">
+    <NODE old="MouseEvents (Mouse Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+    </NODE>
+    <NODE old="MouseStates (Mouse Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="MouseMatch (Mouse)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+    </NODE>
+    <NODE old="Renderer (EX9)">
+      <PIN old="Auto Aspect Ratio" olddefault="0" />
+    </NODE>
+    <NODE old="Mouse (Devices Window)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="Mouse (Devices Desktop)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.13">
+    <NODE old="MouseEvents (Mouse Split)">
+      <PIN old="Position (Normalized Window) XY" new="Position (Projection) XY" />
+    </NODE>
+    <NODE old="MouseStates (Mouse Split)">
+      <PIN old="Position (Normalized Window) XY" new="Position (Projection) XY" />
+    </NODE>
+    <NODE old="MouseMatch (Mouse)">
+      <PIN old="Position (Normalized Window) XY" new="Position (Projection) XY" />
+    </NODE>
+    <NODE old="Renderer (EX9)">
+      <PIN old="Auto Aspect Ratio" olddefault="0" />
+    </NODE>
+    <NODE old="Mouse (Devices Window)">
+      <PIN old="Position (Normalized Window) XY" new="Position (Projection) XY" />
+    </NODE>
+    <NODE old="Mouse (Devices Desktop)">
+      <PIN old="Position (Normalized Window) XY" new="Position (Projection) XY" />
+    </NODE>
+    <NODE old="TouchEvents (Touch Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="TouchStates (Touch Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="Touch (Devices Window)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+  
+    <NODE old="ZoomEvents (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="PanEvents (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="RotateEvents (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="TwoFingerTapEvents (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="PressAndTapEvents (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="ZoomState (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="PanState (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="RotateState (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="TwoFingerTapState (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="PressAndTapState (Gesture Split)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+    <NODE old="Gesture (Devices Window)">
+      <PIN old="PositionXY" new="Position (Normalized Window) XY" />
+      <PIN old="Position in PixelXY" new="Position (Pixel) XY" />
+    </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.14">
+    <NODE old="NULL (Enumerations)" new="NULL (Enumerations Legacy)" />
+  </PATCH>
+  <PATCH version="50alpha35.15">
+    <NODE old="Ord2Enum (Enumerations)" new="Ord2Enum (Enumerations Legacy)" />
+    <NODE old="String2Enum (Enumerations)" new="String2Enum (Enumerations Legacy)" />
+  </PATCH>
+  <PATCH version="50alpha35.16">
+    <NODE old="AspectRatio (Transform)">
+      <PIN old="Alignment" olddefault="FitIn" />
+    </NODE>
+  </PATCH>
+  <PATCH version="50alpha35.17">
+    <NODE old="Ord2Enum (Enumerations)" new="Ord2Enum (Enumerations Explicit)" />
+    <NODE old="String2Enum (Enumerations)" new="String2Enum (Enumerations Explicit)" />
+    <NODE old="Enum2Ord (Enumerations)" new="Enum2Ord (Enumerations Explicit)" />
+    <NODE old="Enum2String (Enumerations)" new="Enum2String (Enumerations Explicit)" />
+  </PATCH>
+  <PATCH version="50alpha35.18">
+    <NODE old="Ord2Enum (Enumerations Legacy)" new="Ord2Enum (Enumerations)" />
+    <NODE old="String2Enum (Enumerations Legacy)" new="String2Enum (Enumerations)" />
+    <NODE old="Enum2Ord (Enumerations Legacy)" new="Enum2Ord (Enumerations)" />
+    <NODE old="Enum2String (Enumerations Legacy)" new="Enum2String (Enumerations)" />
+  </PATCH>
+  <PATCH version="50alpha36.1">
+    <NODE old="HTMLTexture (DX11.Texture URL)">
+      <PIN old="Evaluate" new="Evaluate JavaScript" />
+    </NODE>
+    <NODE old="HTMLTexture (DX11.Texture) String">
+      <PIN old="Evaluate" new="Evaluate JavaScript" />
+    </NODE>
   </PATCH>
 </CONVVVVERTER>

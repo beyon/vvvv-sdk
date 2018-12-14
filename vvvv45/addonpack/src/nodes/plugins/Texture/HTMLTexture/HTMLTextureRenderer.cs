@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Xilium.CefGlue;
-using SlimDX.Direct3D9;
 using VVVV.Core;
 using VVVV.Core.Logging;
-using VVVV.PluginInterfaces.V2.EX9;
 using VVVV.Utils.VMath;
 using System.Text;
 using System.Globalization;
 using VVVV.Utils.IO;
 using System.Xml.Linq;
-using EX9 = SlimDX.Direct3D9;
 using VVVV.PluginInterfaces.V2;
 using System.Threading;
 using System.Diagnostics;
@@ -20,6 +17,8 @@ using System.Windows.Forms;
 using VVVV.Utils.Win32;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Reactive.Subjects;
+using VL.Lib.Basics.Imaging;
 
 namespace VVVV.Nodes.Texture.HTML
 {
@@ -34,6 +33,8 @@ namespace VVVV.Nodes.Texture.HTML
 
         private volatile bool FEnabled;
         private readonly WebClient FWebClient;
+        private readonly Subject<IImage> FImages = new Subject<IImage>();
+        private ArrayImage<byte> FImage = ArrayImage<byte>.Default;
         private CefBrowser FBrowser;
         private CefRequestContext FRequestContext;
         private CefBrowserHost FBrowserHost;
@@ -45,6 +46,7 @@ namespace VVVV.Nodes.Texture.HTML
         private string FErrorText;
         private Size FSize;
         public ILogger Logger;
+        private XElement FReceivedData;
         private readonly AutoResetEvent FBrowserAttachedEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent FBrowserDetachedEvent = new AutoResetEvent(false);
 
@@ -93,6 +95,8 @@ namespace VVVV.Nodes.Texture.HTML
 
         public int FrameRate { get; private set; }
 
+        public IObservable<IImage> Images => FImages;
+
         internal void Attach(CefBrowser browser)
         {
             FBrowser = browser;
@@ -124,7 +128,6 @@ namespace VVVV.Nodes.Texture.HTML
                 FKeyboardSubscription.Dispose();
                 FKeyboardSubscription = null;
             }
-            DestroyResources();
         }
 
         public void LoadUrl(string url)
@@ -247,21 +250,114 @@ namespace VVVV.Nodes.Texture.HTML
                 var newSize = Size;
                 if (IsAutoSize && size != newSize)
                 {
-                    // Put all textures in the degraded state
-                    lock (FTextures)
-                    {
-                        for (int i = 0; i < FTextures.Count; i++)
-                            if (FTextures[i].Size != newSize)
-                                FTextures[i] = FTextures[i].Update(newSize);
-                    }
                     FBrowserHost.WasResized();
                     FBrowserHost.Invalidate(CefPaintElementType.View);
                 }
             }
         }
 
+        internal void OnReceiveData(CefFrame frame, CefDictionaryValue data)
+        {
+            FReceivedData = ToXElement("data", data);
+        }
+
+        internal void OnReceiveData(CefFrame frame, CefListValue data)
+        {
+            FReceivedData = ToXElement("data", data);
+        }
+
+        static XElement ToXElement(string name, CefDictionaryValue value)
+        {
+            var result = new XElement(name);
+            var keys = value.GetKeys();
+            foreach (var key in keys)
+            {
+                var type = value.GetValueType(key);
+                switch (type)
+                {
+                    case CefValueType.Invalid:
+                        break;
+                    case CefValueType.Null:
+                        result.SetAttributeValue(key, null);
+                        break;
+                    case CefValueType.Bool:
+                        result.SetAttributeValue(key, value.GetBool(key));
+                        break;
+                    case CefValueType.Int:
+                        result.SetAttributeValue(key, value.GetInt(key));
+                        break;
+                    case CefValueType.Double:
+                        result.SetAttributeValue(key, value.GetDouble(key));
+                        break;
+                    case CefValueType.String:
+                        result.SetAttributeValue(key, value.GetString(key));
+                        break;
+                    case CefValueType.Binary:
+                        break;
+                    case CefValueType.Dictionary:
+                        result.Add(ToXElement(key, value.GetDictionary(key)));
+                        break;
+                    case CefValueType.List:
+                        result.Add(ToXElement(key, value.GetList(key)));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        }
+
+        static XElement ToXElement(string name, CefListValue value)
+        {
+            var result = new XElement(name);
+            var count = value.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var type = value.GetValueType(i);
+                switch (type)
+                {
+                    case CefValueType.Invalid:
+                        break;
+                    case CefValueType.Null:
+                        result.Add(new XElement("item", null));
+                        break;
+                    case CefValueType.Bool:
+                        result.Add(new XElement("item", value.GetBool(i)));
+                        break;
+                    case CefValueType.Int:
+                        result.Add(new XElement("item", value.GetInt(i)));
+                        break;
+                    case CefValueType.Double:
+                        result.Add(new XElement("item", value.GetDouble(i)));
+                        break;
+                    case CefValueType.String:
+                        result.Add(new XElement("item", value.GetString(i)));
+                        break;
+                    case CefValueType.Binary:
+                        break;
+                    case CefValueType.Dictionary:
+                        result.Add(ToXElement("item", value.GetDictionary(i)));
+                        break;
+                    case CefValueType.List:
+                        result.Add(ToXElement("item", value.GetList(i)));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        }
+
+        public bool TryReceive(out XElement value)
+        {
+            value = FReceivedData;
+            FReceivedData = null;
+            return value != null;
+        }
+
         public void Reload()
         {
+            FLoaded = false;
             FBrowser.Reload();
         }
 
@@ -519,12 +615,7 @@ namespace VVVV.Nodes.Texture.HTML
         {
             get
             {
-                if (FIsLoading || !FDomIsValid || (IsAutoSize && !FDocumentSizeIsValid))
-                    return true;
-                lock (FTextures)
-                {
-                    return FTextures.Any(t => !t.IsValid);
-                }
+                return FIsLoading || !FDomIsValid || (IsAutoSize && !FDocumentSizeIsValid);
             }
         }
 
@@ -586,103 +677,14 @@ namespace VVVV.Nodes.Texture.HTML
                 Reset();
         }
 
-        private readonly List<DoubleBufferedTexture> FTextures = new List<DoubleBufferedTexture>();
-
-        internal void Paint(CefRectangle[] cefRects, IntPtr buffer, int stride)
+        internal void Paint(CefRectangle[] cefRects, IntPtr buffer, int stride, int width, int height)
         {
             // Do nothing if disabled
             if (!FEnabled) return;
             // If auto size is enabled ignore paint calls as long as document size is invalid
             if (IsAutoSize && !FDocumentSizeIsValid) return;
-            lock (FTextures)
-            {
-                try
-                {
-                    for (int i = 0; i < cefRects.Length; i++)
-                    {
-                        var rect = new Rectangle(cefRects[i].X, cefRects[i].Y, cefRects[i].Width, cefRects[i].Height);
-                        foreach (var texture in FTextures)
-                        {
-                            texture.Write(rect, buffer, stride);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    FErrorText = e.ToString();
-                }
-            }
-        }
-
-        internal void UpdateResources(Device device)
-        {
-            lock (FTextures)
-            {
-                var size = Size;
-                // Create new textures for valid sizes only
-                if (size.Width > 0 && size.Height > 0)
-                {
-                    if (!FTextures.Any(t => t.Device == device))
-                    {
-                        var texture = new DoubleBufferedTexture(device, size);
-                        FTextures.Add(texture);
-                        // Trigger a redraw
-                        FBrowserHost.Invalidate(CefPaintElementType.View);
-                    }
-                }
-                // Tell all textures to update - in case the size is not valid
-                // the texture will stick to the old one
-                for (int i = 0; i < FTextures.Count; i++)
-                {
-                    var texture = FTextures[i];
-                    if (texture.Device == device)
-                    {
-                        var newTexture = texture.Update(size);
-                        // If the "new" texture is in a degraded state trigger a redraw
-                        if (newTexture != texture && newTexture.IsDegraded)
-                            FBrowserHost.Invalidate(CefPaintElementType.View);
-                        FTextures[i] = newTexture;
-                    }
-                }
-            }
-        }
-
-        internal EX9.Texture GetTexture(Device device)
-        {
-            lock (FTextures)
-            {
-                var texture = FTextures.FirstOrDefault(t => t.Device == device);
-                if (texture != null)
-                    return texture.LastCompleteTexture;
-                else
-                    return null;
-            }
-        }
-
-        internal void DestroyResources(Device device)
-        {
-            lock (FTextures)
-            {
-                for (int i = FTextures.Count - 1; i >= 0; i--)
-                {
-                    var texture = FTextures[i];
-                    if (texture.Device == device)
-                    {
-                        FTextures.Remove(texture);
-                        texture.Dispose();
-                    }
-                }
-            }
-        }
-
-        private void DestroyResources()
-        {
-            lock (FTextures)
-            {
-                foreach (var texture in FTextures)
-                    texture.Dispose();
-                FTextures.Clear();
-            }
+            var image = buffer.ToImage(stride * height, width, height, PixelFormat.B8G8R8A8);
+            FImages.OnNext(image);
         }
     }
 }

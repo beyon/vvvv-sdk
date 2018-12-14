@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="vvvv45.props" />
   <!-- Project specific properties -->
   <PropertyGroup>
     <ProjectGuid>{FA8072CA-3343-4199-AC22-62B9E352BAE8}</ProjectGuid>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>..\lib\core\</OutputPath>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <!-- Override vvvvv45.props -->
   <!-- Deploy -->
   <PropertyGroup>
     <DeployInclude>$(RootDir)**\*.*</DeployInclude>
-    <DeployExclude>$(RootDir)*.rsm;$(RootDir)0.v4p;$(RootDir)*.drc;$(RootDir)**\.gitignore;$(RootDir)**\*.pdb;$(RootDir)src\**\*.*;$(RootDir)tests\**\*.*;$(RootDir)addonpack\**\*.*;$(RootDir)lib\nodes\plugins\*\bin\**\*.*;$(RootDir)packs\**\*.*</DeployExclude>
+    <DeployExclude>$(RootDir)*.rsm;$(RootDir)0.v4p;$(RootDir)*.drc;$(RootDir)**\.gitignore;$(RootDir)**\.git;$(RootDir)**\*.pdb;$(RootDir)src\**\*.*;$(RootDir)tests\**\*.*;$(RootDir)addonpack\**\*.*;$(RootDir)lib\nodes\plugins\*\bin\**\*.*;$(RootDir)packs\**\*.*</DeployExclude>
     <!-- Files to exclude for platform specific builds -->
     <DeployExclude Condition=" '$(Platform)' == 'x86' ">$(DeployExclude);..\lib\thirdparty\x64\**\*.*</DeployExclude>
     <DeployExclude Condition=" '$(Platform)' == 'x64' ">$(DeployExclude);..\lib\thirdparty\x86\**\*.*;..\lib\nodes\directshowfilter\*.*;..\lib\nodes\freeframes\*.*</DeployExclude>
-    <DeployReadOnlyFiles>lib\nodes\*.*</DeployReadOnlyFiles>
+    <DeployReadOnlyFiles>lib\nodes\*.*;lib\packs\VL.*</DeployReadOnlyFiles>
     <DeployHiddenFiles>vvvv.exe.config;vvvv.jdbg</DeployHiddenFiles>
   </PropertyGroup>
   <!-- Freeframe and DirectShow -->
@@ -88,10 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="vvvv45.props" />
     <None Include="vvvv45.targets" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="vvvv45.targets" />
   <Target Name="Build" DependsOnTargets="$(VVVV_BuildDependsOn)" />
   <Target Name="Rebuild" DependsOnTargets="Clean;Build" />

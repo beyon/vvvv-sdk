@@ -26,6 +26,8 @@ namespace VVVV.Hosting
         void RemoveWindowListener(IWindowListener listener);
         void AddComponentModeListener(IComponentModeListener listener);
         void RemoveComponentModeListener(IComponentModeListener listener);
+        void AddEnumListener(IEnumListener listener);
+        void RemoveEnumListener(IEnumListener listener);
 
         /// <summary>
         /// The graphs root node
@@ -220,6 +222,8 @@ namespace VVVV.Hosting
         /// By using this you can potenitally reduce latency.
         /// </summary>
         void SetTimeProvider(ITimeProvider timeProvider);
+
+        void ShowVLEditor();
     }
 
     #region Listeners
@@ -276,6 +280,16 @@ namespace VVVV.Hosting
     {
         void WindowSelectionChangeCB(IWindow window);
     }
-    
+
+    /// <summary>
+    /// Listener interface to be informed of a changed Enum.
+    /// </summary>
+    [Guid("D5248C93-C357-4378-A638-A322D14FAFCC"),
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    public interface IEnumListener
+    {
+        void EnumChangeCB(string enumName);
+    }
+
     #endregion Listeners
 }
